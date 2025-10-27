@@ -1,6 +1,5 @@
 import * as functions from 'firebase-functions'
 import * as admin from 'firebase-admin'
-import axios from 'axios'
 
 // Initialize Firebase Admin
 admin.initializeApp()
@@ -25,38 +24,7 @@ interface JoinWaitlistRequest {
   role: 'Investor' | 'Builder' | 'Trader' | 'Other'
   referrer?: string
   notes?: string
-  recaptchaToken: string
   userAgent?: string
-}
-
-// Verify reCAPTCHA token
-async function verifyRecaptcha(token: string): Promise<boolean> {
-  const secretKey = functions.config().recaptcha?.secret_key
-  
-  if (!secretKey) {
-    console.error('reCAPTCHA secret key not configured')
-    return false
-  }
-
-  // For development/testing, accept test tokens
-  if (token === 'test-token' || secretKey === '6LeIxAcTAAAAAGG-vFI1TnRWxMZNFuojJ4WifJWe') {
-    console.log('Using test reCAPTCHA verification')
-    return true
-  }
-
-  try {
-    const response = await axios.post('https://www.google.com/recaptcha/api/siteverify', null, {
-      params: {
-        secret: secretKey,
-        response: token,
-      },
-    })
-
-    return response.data.success && response.data.score >= 0.5
-  } catch (error) {
-    console.error('reCAPTCHA verification error:', error)
-    return false
-  }
 }
 
 // Hash IP address for privacy
@@ -68,12 +36,6 @@ function hashIP(ip: string): string {
 // Join waitlist callable function
 export const joinWaitlist = functions.https.onCall(async (data: JoinWaitlistRequest, context) => {
   try {
-    // Verify reCAPTCHA
-    const isRecaptchaValid = await verifyRecaptcha(data.recaptchaToken)
-    if (!isRecaptchaValid) {
-      throw new functions.https.HttpsError('unauthenticated', 'reCAPTCHA verification failed')
-    }
-
     // Validate input
     const email = data.email.toLowerCase().trim()
     if (!email || !data.role) {

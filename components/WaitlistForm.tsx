@@ -1,12 +1,11 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { httpsCallable } from 'firebase/functions'
 import { getFirebaseFunctions } from '@/lib/firebase'
-import { loadRecaptcha, getRecaptchaToken } from '@/lib/recaptcha'
 import { trackEvent } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
 
@@ -39,9 +38,6 @@ export default function WaitlistForm({ className }: WaitlistFormProps) {
     resolver: zodResolver(waitlistSchema),
   })
 
-  useEffect(() => {
-    loadRecaptcha().catch(console.error)
-  }, [])
 
   const onSubmit = async (data: WaitlistFormData) => {
     setIsSubmitting(true)
@@ -49,10 +45,7 @@ export default function WaitlistForm({ className }: WaitlistFormProps) {
     setErrorMessage('')
 
     try {
-      // Get reCAPTCHA token
-      const recaptchaToken = await getRecaptchaToken('waitlist_submit')
-
-      // Call Firebase function
+      // Call Firebase function directly without reCAPTCHA
       const functions = getFirebaseFunctions()
       const joinWaitlist = httpsCallable(functions, 'joinWaitlist')
 
@@ -61,7 +54,6 @@ export default function WaitlistForm({ className }: WaitlistFormProps) {
         role: data.role,
         referrer: data.referrer?.trim() || undefined,
         notes: data.notes?.trim() || undefined,
-        recaptchaToken,
         userAgent: navigator.userAgent,
       })
 
@@ -85,7 +77,7 @@ export default function WaitlistForm({ className }: WaitlistFormProps) {
       setSubmitStatus('error')
       
       if (error.code === 'functions/unauthenticated') {
-        setErrorMessage('Please verify you are human and try again.')
+        setErrorMessage('Please check your information and try again.')
       } else if (error.code === 'functions/invalid-argument') {
         setErrorMessage('Please check your information and try again.')
       } else {

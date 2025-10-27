@@ -3,32 +3,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.confirmWaitlist = exports.joinWaitlist = void 0;
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
-const axios_1 = require("axios");
 // Initialize Firebase Admin
 admin.initializeApp();
 const db = admin.firestore();
-// Verify reCAPTCHA token
-async function verifyRecaptcha(token) {
-    var _a;
-    const secretKey = (_a = functions.config().recaptcha) === null || _a === void 0 ? void 0 : _a.secret_key;
-    if (!secretKey) {
-        console.error('reCAPTCHA secret key not configured');
-        return false;
-    }
-    try {
-        const response = await axios_1.default.post('https://www.google.com/recaptcha/api/siteverify', null, {
-            params: {
-                secret: secretKey,
-                response: token,
-            },
-        });
-        return response.data.success && response.data.score >= 0.5;
-    }
-    catch (error) {
-        console.error('reCAPTCHA verification error:', error);
-        return false;
-    }
-}
 // Hash IP address for privacy
 function hashIP(ip) {
     const crypto = require('crypto');
@@ -38,11 +15,6 @@ function hashIP(ip) {
 exports.joinWaitlist = functions.https.onCall(async (data, context) => {
     var _a, _b, _c;
     try {
-        // Verify reCAPTCHA
-        const isRecaptchaValid = await verifyRecaptcha(data.recaptchaToken);
-        if (!isRecaptchaValid) {
-            throw new functions.https.HttpsError('unauthenticated', 'reCAPTCHA verification failed');
-        }
         // Validate input
         const email = data.email.toLowerCase().trim();
         if (!email || !data.role) {
