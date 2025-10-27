@@ -44,24 +44,6 @@ export default function HomePage() {
               >
                 Join the waitlist
               </button>
-              <a
-                href="#investor-deck"
-                className="btn-secondary text-lg px-8 py-4"
-              >
-                Investor deck
-              </a>
-            </div>
-
-            {/* Trust Row */}
-            <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6 max-w-4xl mx-auto">
-              <p className="text-sm text-gray-600 mb-4">Coming soon:</p>
-              <div className="flex flex-wrap justify-center items-center gap-8 text-gray-500">
-                <span className="font-semibold">Solana</span>
-                <span className="font-semibold">Fireblocks</span>
-                <span className="font-semibold">Securitize</span>
-                <span className="font-semibold">Jupiter</span>
-              </div>
-              <p className="text-xs text-gray-400 mt-2">(Placeholder logos)</p>
             </div>
           </div>
         </div>
