@@ -12,6 +12,13 @@ export const getRecaptchaToken = async (action: string = 'submit'): Promise<stri
       return
     }
 
+    // For development/testing, return test token
+    if (siteKey === '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI') {
+      console.log('Using test reCAPTCHA token')
+      resolve('test-token')
+      return
+    }
+
     window.grecaptcha.ready(() => {
       window.grecaptcha.execute(siteKey, { action })
         .then((token: string) => {
