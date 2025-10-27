@@ -160,6 +160,42 @@ function StepCard({ step, index, isExpanded = false, onToggle, isMobile = false 
           })}
         </div>
 
+        {/* Special visual for step 1 - Deposit process */}
+        {step.id === 1 && (
+          <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100">
+            <div className="text-center mb-3">
+              <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Deposit Process</span>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-center justify-center space-x-4">
+                <div className="text-center">
+                  <div className="w-12 h-8 bg-blue-100 rounded-lg flex items-center justify-center mb-1">
+                    <span className="text-blue-800 text-xs font-bold">SPY</span>
+                  </div>
+                  <span className="text-xs text-gray-600">Your Asset</span>
+                </div>
+                <div className="text-gray-400 text-lg">→</div>
+                <div className="text-center">
+                  <div className="w-12 h-8 bg-green-100 rounded-lg flex items-center justify-center mb-1">
+                    <span className="text-green-800 text-xs font-bold">🔒</span>
+                  </div>
+                  <span className="text-xs text-gray-600">Custody</span>
+                </div>
+                <div className="text-gray-400 text-lg">→</div>
+                <div className="text-center">
+                  <div className="w-12 h-8 bg-purple-100 rounded-lg flex items-center justify-center mb-1">
+                    <span className="text-purple-800 text-xs font-bold">✓</span>
+                  </div>
+                  <span className="text-xs text-gray-600">Secured</span>
+                </div>
+              </div>
+              <div className="text-center text-xs text-gray-500">
+                Offshore SPV • Regulated Custody • Proof of Reserves
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Special visual for step 2 - Component breakdown */}
         {step.id === 2 && (
           <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-100">
