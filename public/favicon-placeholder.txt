@@ -1,0 +1,4 @@
+# Favicon placeholder
+# This should be replaced with a proper favicon.ico file
+# Recommended size: 32x32px or 16x16px
+# Should match the Breakup Protocol branding

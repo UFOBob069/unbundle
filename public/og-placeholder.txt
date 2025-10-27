@@ -1,0 +1,7 @@
+# Placeholder for og.png
+# This should be replaced with a 1200x630px image for Open Graph sharing
+# The image should include:
+# - Breakup Protocol logo/branding
+# - "Trade the parts, not just the whole" tagline
+# - Professional, investor-friendly design
+# - Dark text on light background for readability
