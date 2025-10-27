@@ -87,7 +87,7 @@ export default function Examples() {
               </p>
               
               <p>
-                At mint, the system uses transparent, pre-declared proportions (governance-set; updated periodically) that reflect latest segment disclosures and consensus SOTP bands. Example proportions (illustrative):
+                At mint, the system uses transparent, pre-declared proportions (governance-set; updated periodically) that reflect latest segment disclosures and consensus sum-of-the-parts bands. Example proportions (illustrative):
               </p>
               
               <div className="bg-gray-50 p-4 rounded-lg font-mono text-xs space-y-1">
@@ -103,7 +103,7 @@ export default function Examples() {
               </p>
               
               <p>
-                📊 <strong>Price discovery:</strong> Even though the mint uses static proportions at that moment, secondary markets can price YT above or below its "implied" slice based on forward views (e.g., CTV growth, Shorts monetization). This surfaces a live, crowd-priced SOTP for Alphabet.
+                📊 <strong>Price discovery:</strong> Even though the mint uses static proportions at that moment, secondary markets can price YT above or below its "implied" slice based on forward views (e.g., CTV growth, Shorts monetization). This surfaces a live, crowd-priced sum-of-the-parts for Alphabet.
               </p>
               
               <div className="bg-blue-50 p-4 rounded-lg">

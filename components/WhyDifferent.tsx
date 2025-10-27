@@ -6,7 +6,7 @@ export default function WhyDifferent() {
       icon: "🛡️"
     },
     {
-      title: "True SOTP Price Discovery",
+      title: "True Sum-of-the-Parts Price Discovery",
       description: "Trade sub-units directly",
       icon: "📊"
     },

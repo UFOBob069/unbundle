@@ -33,11 +33,11 @@ const content = {
     {
       id: 2,
       title: "Mint component tokens",
-      description: "Mint component tokens (AAPL/MSFT/NVDA/… or YT/SEARCH/CLOUD/OTHER)",
+      description: "Break apart your bundled asset into individual component tokens",
       icon: Atom,
       badge: Coins,
       bullets: [
-        { icon: Atom, text: "SPY → AAPL/MSFT/…" },
+        { icon: Atom, text: "SPY → AAPL/MSFT/NVDA/…" },
         { icon: Atom, text: "GOOGL → YT/SEARCH/CLOUD" },
         { icon: Scale, text: "1:1 mint at NAV" }
       ]
@@ -45,7 +45,7 @@ const content = {
     {
       id: 3,
       title: "Trade or Redeem freely",
-      description: "Trade or Redeem freely; burn components to reclaim the original asset",
+      description: "Trade individual components or burn them back to reclaim the original asset",
       icon: ArrowLeftRight,
       badge: ArrowLeftRight,
       bullets: [
@@ -209,38 +209,53 @@ export default function HowItWorks({ variant, onCtaClick }: HowItWorksProps) {
   // SVG illustration for desktop
   const ProcessIllustration = () => (
     <div className="hidden xl:block absolute right-8 top-1/2 transform -translate-y-1/2">
-      <svg width="200" height="120" viewBox="0 0 200 120" className="opacity-60">
+      <svg width="240" height="140" viewBox="0 0 240 140" className="opacity-70">
         <defs>
           <linearGradient id="tokenGradient" x1="0%" y1="0%" x2="100%" y2="0%">
             <stop offset="0%" stopColor="#6366f1" />
             <stop offset="50%" stopColor="#0ea5e9" />
             <stop offset="100%" stopColor="#22d3ee" />
           </linearGradient>
+          <linearGradient id="componentGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#10b981" />
+            <stop offset="50%" stopColor="#059669" />
+            <stop offset="100%" stopColor="#047857" />
+          </linearGradient>
         </defs>
         
-        {/* Parent token */}
-        <rect x="20" y="50" width="40" height="20" rx="10" fill="url(#tokenGradient)" />
-        <text x="40" y="63" textAnchor="middle" className="text-xs fill-white font-bold">SPY</text>
+        {/* Parent token - SPY */}
+        <rect x="20" y="50" width="50" height="25" rx="12" fill="url(#tokenGradient)" stroke="#1e40af" strokeWidth="2"/>
+        <text x="45" y="66" textAnchor="middle" className="text-sm fill-white font-bold">SPY</text>
         
         {/* Arrow to split */}
-        <path d="M70 60 L90 60" stroke="#6366f1" strokeWidth="2" markerEnd="url(#arrowhead)" />
+        <path d="M80 62 L100 62" stroke="#6366f1" strokeWidth="3" markerEnd="url(#arrowhead)" />
+        <text x="90" y="55" textAnchor="middle" className="text-xs fill-gray-600 font-semibold">BREAK</text>
         
-        {/* Split tokens */}
-        <rect x="100" y="30" width="25" height="15" rx="7" fill="url(#tokenGradient)" />
-        <text x="112" y="40" textAnchor="middle" className="text-xs fill-white font-bold">AAPL</text>
+        {/* Split tokens - Components */}
+        <rect x="110" y="20" width="35" height="18" rx="9" fill="url(#componentGradient)" stroke="#059669" strokeWidth="1"/>
+        <text x="127" y="32" textAnchor="middle" className="text-xs fill-white font-bold">AAPL</text>
         
-        <rect x="100" y="50" width="25" height="15" rx="7" fill="url(#tokenGradient)" />
-        <text x="112" y="60" textAnchor="middle" className="text-xs fill-white font-bold">MSFT</text>
+        <rect x="110" y="45" width="35" height="18" rx="9" fill="url(#componentGradient)" stroke="#059669" strokeWidth="1"/>
+        <text x="127" y="57" textAnchor="middle" className="text-xs fill-white font-bold">MSFT</text>
         
-        <rect x="100" y="70" width="25" height="15" rx="7" fill="url(#tokenGradient)" />
-        <text x="112" y="80" textAnchor="middle" className="text-xs fill-white font-bold">NVDA</text>
+        <rect x="110" y="70" width="35" height="18" rx="9" fill="url(#componentGradient)" stroke="#059669" strokeWidth="1"/>
+        <text x="127" y="82" textAnchor="middle" className="text-xs fill-white font-bold">NVDA</text>
+        
+        <rect x="110" y="95" width="35" height="18" rx="9" fill="url(#componentGradient)" stroke="#059669" strokeWidth="1"/>
+        <text x="127" y="107" textAnchor="middle" className="text-xs fill-white font-bold">REST</text>
         
         {/* Arrow to recombine */}
-        <path d="M135 60 L155 60" stroke="#6366f1" strokeWidth="2" markerEnd="url(#arrowhead)" />
+        <path d="M155 62 L175 62" stroke="#6366f1" strokeWidth="3" markerEnd="url(#arrowhead)" />
+        <text x="165" y="55" textAnchor="middle" className="text-xs fill-gray-600 font-semibold">BURN</text>
         
         {/* Recombined token */}
-        <rect x="165" y="50" width="40" height="20" rx="10" fill="url(#tokenGradient)" />
-        <text x="185" y="63" textAnchor="middle" className="text-xs fill-white font-bold">SPY</text>
+        <rect x="185" y="50" width="50" height="25" rx="12" fill="url(#tokenGradient)" stroke="#1e40af" strokeWidth="2"/>
+        <text x="210" y="66" textAnchor="middle" className="text-sm fill-white font-bold">SPY</text>
+        
+        {/* Labels */}
+        <text x="45" y="45" textAnchor="middle" className="text-xs fill-gray-500 font-medium">Deposit</text>
+        <text x="127" y="10" textAnchor="middle" className="text-xs fill-gray-500 font-medium">Components</text>
+        <text x="210" y="45" textAnchor="middle" className="text-xs fill-gray-500 font-medium">Redeem</text>
         
         {/* Arrow marker definition */}
         <defs>
