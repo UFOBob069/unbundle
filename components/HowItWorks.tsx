@@ -107,13 +107,14 @@ function StepCard({ step, index, isExpanded = false, onToggle, isMobile = false 
       onClick={isMobile ? onToggle : undefined}
     >
       {/* Glass panel */}
-      <div className="
+      <div className={`
         relative bg-white dark:bg-slate-900/40 
         rounded-2xl shadow-lg border border-gray-200/50 dark:border-slate-700/50
         p-8 backdrop-blur-sm
         transition-all duration-300
         group-hover:shadow-xl group-hover:border-gray-300/70 dark:group-hover:border-slate-600/70
-      ">
+        ${step.id === 3 ? 'ring-2 ring-blue-100 dark:ring-blue-900/30' : ''}
+      `}>
         {/* Step chip */}
         <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
           <div className="
@@ -153,11 +154,60 @@ function StepCard({ step, index, isExpanded = false, onToggle, isMobile = false 
             return (
               <div key={bulletIndex} className="flex items-center justify-center space-x-2 text-xs text-gray-500 dark:text-gray-400">
                 <BulletIcon size={12} />
-                <span>{bullet.text}</span>
+                <span className="font-medium">{bullet.text}</span>
               </div>
             )
           })}
         </div>
+
+        {/* Special visual for step 2 - Component breakdown */}
+        {step.id === 2 && (
+          <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-xl border border-green-100">
+            <div className="text-center mb-3">
+              <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Breakdown Process</span>
+            </div>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-600">SPY ($500)</span>
+                <span className="text-gray-400">→</span>
+                <div className="flex gap-1">
+                  <div className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">AAPL</div>
+                  <div className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">MSFT</div>
+                  <div className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">NVDA</div>
+                </div>
+              </div>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-gray-600">GOOGL ($150)</span>
+                <span className="text-gray-400">→</span>
+                <div className="flex gap-1">
+                  <div className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">YT</div>
+                  <div className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">SEARCH</div>
+                  <div className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">CLOUD</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Special visual for step 3 - Component flow */}
+        {step.id === 3 && (
+          <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border border-blue-100">
+            <div className="text-center mb-3">
+              <span className="text-xs font-semibold text-gray-600 uppercase tracking-wide">Component Flow</span>
+            </div>
+            <div className="flex flex-wrap justify-center gap-2">
+              <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">SPY</div>
+              <div className="text-gray-400 text-xs">→</div>
+              <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">AAPL</div>
+              <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">MSFT</div>
+              <div className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-medium">NVDA</div>
+              <div className="text-gray-400 text-xs">→</div>
+              <div className="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-medium">BURN</div>
+              <div className="text-gray-400 text-xs">→</div>
+              <div className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">SPY</div>
+            </div>
+          </div>
+        )}
 
         {/* Mobile expand indicator */}
         {isMobile && (
