@@ -32,9 +32,10 @@ export const getFirebaseFunctions = (): Functions => {
     if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined') {
       try {
         connectFunctionsEmulator(functions, 'localhost', 5001)
+        console.log('Connected to Firebase Functions emulator')
       } catch (error) {
         // Emulator already connected or not available
-        console.log('Functions emulator not available')
+        console.log('Functions emulator not available or already connected')
       }
     }
   }

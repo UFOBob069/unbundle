@@ -76,10 +76,19 @@ export default function WaitlistForm({ className }: WaitlistFormProps) {
       console.error('Waitlist submission error:', error)
       setSubmitStatus('error')
       
-      if (error.code === 'functions/unauthenticated') {
+      // More specific error messages
+      if (error.code === 'functions/unavailable') {
+        setErrorMessage('Service temporarily unavailable. Please try again in a moment.')
+      } else if (error.code === 'functions/deadline-exceeded') {
+        setErrorMessage('Request timed out. Please check your connection and try again.')
+      } else if (error.code === 'functions/unauthenticated') {
         setErrorMessage('Please check your information and try again.')
       } else if (error.code === 'functions/invalid-argument') {
         setErrorMessage('Please check your information and try again.')
+      } else if (error.code === 'functions/not-found') {
+        setErrorMessage('Service not available. Please try again later.')
+      } else if (error.message?.includes('Firebase Functions')) {
+        setErrorMessage('Service temporarily unavailable. Please try again.')
       } else {
         setErrorMessage('Something went wrong. Please try again.')
       }
