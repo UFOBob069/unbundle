@@ -1,7 +1,14 @@
-// Firestore locked: only Cloud Functions write
+// Firestore rules - allow waitlist writes, deny everything else
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Allow writes to waitlist_entries collection
+    match /waitlist_entries/{document} {
+      allow create: if true;
+      allow read, update, delete: if false;
+    }
+    
+    // Deny all other reads/writes
     match /{document=**} {
       allow read, write: if false;
     }

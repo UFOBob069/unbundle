@@ -4,10 +4,11 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
-import { httpsCallable } from 'firebase/functions'
-import { getFirebaseFunctions } from '@/lib/firebase'
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { getFirebaseApp } from '@/lib/firebase'
 import { trackEvent } from '@/lib/analytics'
 import { cn } from '@/lib/utils'
+import { getFirestore } from 'firebase/firestore'
 
 const waitlistSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
@@ -45,17 +46,22 @@ export default function WaitlistForm({ className }: WaitlistFormProps) {
     setErrorMessage('')
 
     try {
-      // Call Firebase function directly without reCAPTCHA
-      const functions = getFirebaseFunctions()
-      const joinWaitlist = httpsCallable(functions, 'joinWaitlist')
-
-      const result = await joinWaitlist({
+      // Write directly to Firestore
+      const app = getFirebaseApp()
+      const db = getFirestore(app)
+      
+      const waitlistEntry = {
         email: data.email.toLowerCase().trim(),
         role: data.role,
-        referrer: data.referrer?.trim() || undefined,
-        notes: data.notes?.trim() || undefined,
+        referrer: data.referrer?.trim() || null,
+        notes: data.notes?.trim() || null,
+        createdAt: serverTimestamp(),
+        confirmed: false,
+        source: 'homepage',
         userAgent: navigator.userAgent,
-      })
+      }
+
+      await addDoc(collection(db, 'waitlist_entries'), waitlistEntry)
 
       // Track success
       trackEvent('waitlist_submitted', {
@@ -77,18 +83,12 @@ export default function WaitlistForm({ className }: WaitlistFormProps) {
       setSubmitStatus('error')
       
       // More specific error messages
-      if (error.code === 'functions/unavailable') {
+      if (error.code === 'permission-denied') {
+        setErrorMessage('Unable to submit form. Please try again.')
+      } else if (error.code === 'unavailable') {
         setErrorMessage('Service temporarily unavailable. Please try again in a moment.')
-      } else if (error.code === 'functions/deadline-exceeded') {
+      } else if (error.code === 'deadline-exceeded') {
         setErrorMessage('Request timed out. Please check your connection and try again.')
-      } else if (error.code === 'functions/unauthenticated') {
-        setErrorMessage('Please check your information and try again.')
-      } else if (error.code === 'functions/invalid-argument') {
-        setErrorMessage('Please check your information and try again.')
-      } else if (error.code === 'functions/not-found') {
-        setErrorMessage('Service not available. Please try again later.')
-      } else if (error.message?.includes('Firebase Functions')) {
-        setErrorMessage('Service temporarily unavailable. Please try again.')
       } else {
         setErrorMessage('Something went wrong. Please try again.')
       }
