@@ -39,16 +39,16 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold text-gray-900 mb-4">Connect</h3>
             <ul className="space-y-2">
-              <li>
-                <a 
-                  href="https://twitter.com/unbundlefi" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
-                >
-                  Twitter/X
-                </a>
-              </li>
+            <li>
+              <a
+                href="https://x.com/UnbundleFinance"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+              >
+                Twitter/X
+              </a>
+            </li>
               <li>
                 <a 
                   href="https://github.com/unbundlefi" 
