@@ -45,6 +45,23 @@ export default function HomePage() {
                 Join the waitlist
               </button>
             </div>
+
+            {/* Video Section */}
+            <div className="max-w-4xl mx-auto mb-12">
+              <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 text-center">See Unbundle in Action</h3>
+                <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
+                  <iframe
+                    className="absolute top-0 left-0 w-full h-full rounded-lg"
+                    src="https://www.youtube.com/embed/oEkBDR7nemY"
+                    title="Unbundle Finance Demo"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
