@@ -38,9 +38,15 @@ export default function HomePage() {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
+              <a
+                href="/demo"
+                className="btn-primary text-lg px-8 py-4 inline-block text-center"
+              >
+                Try Live Demo
+              </a>
               <button
                 onClick={scrollToForm}
-                className="btn-primary text-lg px-8 py-4"
+                className="bg-white text-indigo-600 border-2 border-indigo-600 hover:bg-indigo-50 text-lg px-8 py-4 rounded-lg font-semibold transition-colors"
               >
                 Join the waitlist
               </button>
