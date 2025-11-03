@@ -11,6 +11,10 @@ const nextConfig = {
   experimental: {
     missingSuspenseWithCSRBailout: false,
   },
+  // Disable static optimization for pages with wallet context
+  generateBuildId: async () => {
+    return 'build'
+  },
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
@@ -21,8 +25,6 @@ const nextConfig = {
     config.externals.push('pino-pretty', 'encoding');
     return config;
   },
-  // Continue build even if there are static generation errors
-  onError: undefined,
 };
 
 module.exports = nextConfig;
