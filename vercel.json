@@ -1,8 +1,12 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "framework": null,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/node"
+    }
+  ],
   "buildCommand": "npm install && node build-wrapper.js",
-  "devCommand": "npm run dev",
   "outputDirectory": ".next"
 }
 
