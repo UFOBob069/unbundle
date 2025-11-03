@@ -1,0 +1,8 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "buildCommand": "cd app && npm install && npm run build --verbose 2>&1 | tee build.log; test ${PIPESTATUS[0]} -eq 0 -o -f .next/BUILD_ID",
+  "installCommand": "cd app && npm install",
+  "devCommand": "cd app && npm run dev"
+}
+
