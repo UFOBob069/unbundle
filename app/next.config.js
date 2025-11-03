@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  output: 'standalone',
   eslint: {
     ignoreDuringBuilds: false,
   },
@@ -8,6 +9,9 @@ const nextConfig = {
     ignoreBuildErrors: false,
   },
   staticPageGenerationTimeout: 120,
+  experimental: {
+    missingSuspenseWithCSRBailout: false,
+  },
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
