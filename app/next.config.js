@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -8,18 +8,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   swcMinify: true,
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
-  // Skip error page generation
-  generateBuildId: async () => 'build-id',
-  // Disable static page generation for error pages
-  exportPathMap: async function (defaultPathMap) {
-    const pathMap = { ...defaultPathMap };
-    delete pathMap['/404'];
-    delete pathMap['/500'];
-    return pathMap;
-  },
   webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,

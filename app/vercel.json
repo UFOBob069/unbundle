@@ -1,4 +1,0 @@
-{
-  "buildCommand": "npm run build; exit 0",
-  "framework": "nextjs"
-}

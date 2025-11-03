@@ -9,6 +9,8 @@ import { Toaster } from 'react-hot-toast';
 import { useMemo } from 'react';
 import '@solana/wallet-adapter-react-ui/styles.css';
 
+export const dynamic = 'force-dynamic';
+
 export default function AppLayout({
   children,
 }: {
