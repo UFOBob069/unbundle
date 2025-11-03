@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "vercel-build": "next build || true"
+    "lint": "next lint"
   },
   "dependencies": {
     "@coral-xyz/anchor": "^0.29.0",
