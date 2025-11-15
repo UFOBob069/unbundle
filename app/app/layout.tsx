@@ -1,14 +1,11 @@
-'use client';
-
+import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
 import { Analytics } from '@vercel/analytics/react'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const dynamic = 'force-dynamic';
-
-const metadata = {
+export const metadata: Metadata = {
   title: 'Unbundle Finance — Deposit SPY or GOOGL, trade the pieces (backed & redeemable)',
   description: 'Mint component tokens from bundled assets. Arb-enforced parity, transparent mechanics, investor-grade UX.',
   keywords: 'ETF, stocks, trading, arbitrage, sum of parts, SPY, GOOGL, components, unbundle',
@@ -66,10 +63,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <head>
-        <title>Unbundle Finance — Deposit SPY or GOOGL, trade the pieces (backed & redeemable)</title>
-        <meta name="description" content="Mint component tokens from bundled assets. Arb-enforced parity, transparent mechanics, investor-grade UX." />
-      </head>
       <body className={inter.className}>
         {children}
         <Analytics />

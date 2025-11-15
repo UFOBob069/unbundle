@@ -18,8 +18,6 @@ const nextConfig = {
     if (!isServer) {
       config.externals.push('pino-pretty', 'encoding');
     }
-    // Suppress build errors for error pages
-    config.bail = false;
     return config;
   },
 };
