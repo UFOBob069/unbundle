@@ -1,15 +1,6 @@
 'use client';
 
-import React from 'react';
-
 export default function Error({ error, reset }) {
-  React.useEffect(() => {
-    // Log error client-side only
-    if (typeof window !== 'undefined' && error) {
-      console.error('Error:', error);
-    }
-  }, [error]);
-
   return (
     <div style={{
       display: 'flex',
@@ -42,7 +33,7 @@ export default function Error({ error, reset }) {
         flexWrap: 'wrap',
         justifyContent: 'center'
       }}>
-        {reset && typeof reset === 'function' && (
+        {reset && (
           <button
             onClick={reset}
             style={{

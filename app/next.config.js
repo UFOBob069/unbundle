@@ -8,10 +8,6 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   swcMinify: true,
-  // Disable static optimization for error pages during build
-  experimental: {
-    missingSuspenseWithCSRBailout: false,
-  },
   webpack: (config, { isServer }) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
