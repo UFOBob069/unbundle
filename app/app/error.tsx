@@ -1,6 +1,19 @@
-'use client';
+'use client'
 
-export default function Error({ error, reset }) {
+import { useEffect } from 'react'
+
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string }
+  reset: () => void
+}) {
+  useEffect(() => {
+    // Log the error to an error reporting service
+    console.error(error)
+  }, [error])
+
   return (
     <div style={{
       display: 'flex',
@@ -33,22 +46,20 @@ export default function Error({ error, reset }) {
         flexWrap: 'wrap',
         justifyContent: 'center'
       }}>
-        {reset && (
-          <button
-            onClick={reset}
-            style={{
-              padding: '10px 20px',
-              color: '#4F46E5',
-              border: '1px solid #4F46E5',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              background: 'white',
-              fontSize: '16px'
-            }}
-          >
-            Try again
-          </button>
-        )}
+        <button
+          onClick={reset}
+          style={{
+            padding: '10px 20px',
+            color: '#4F46E5',
+            border: '1px solid #4F46E5',
+            borderRadius: '4px',
+            cursor: 'pointer',
+            background: 'white',
+            fontSize: '16px'
+          }}
+        >
+          Try again
+        </button>
         <a
           href="/"
           style={{
@@ -65,6 +76,6 @@ export default function Error({ error, reset }) {
         </a>
       </div>
     </div>
-  );
+  )
 }
 
