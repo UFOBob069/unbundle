@@ -23,6 +23,7 @@ Thumbs.db
 dist/
 *.wasm
 app/.next/
+app/.next_old_debug/
 app/out/
 .next/
 
