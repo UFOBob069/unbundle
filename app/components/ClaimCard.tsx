@@ -3,7 +3,7 @@
 import { useWallet } from '@solana/wallet-adapter-react';
 import { useConnection } from '@solana/wallet-adapter-react';
 import { Program, AnchorProvider, BN } from '@coral-xyz/anchor';
-import { PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
+import { PublicKey, SystemProgram, Transaction, ComputeBudgetProgram } from '@solana/web3.js';
 import { getAssociatedTokenAddress, createAssociatedTokenAccountInstruction, getAccount } from '@solana/spl-token';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
@@ -21,7 +21,7 @@ export default function ClaimCard() {
 
     async function fetchCooldown() {
       if (!publicKey) return;
-      
+
       try {
         const programId = new PublicKey(process.env.NEXT_PUBLIC_FAUCET_PROGRAM_ID!);
         const googlMint = new PublicKey(process.env.NEXT_PUBLIC_GGL_MINT!);
@@ -39,7 +39,7 @@ export default function ClaimCard() {
           // Fetch account data directly
           const userAccountInfo = await connection.getAccountInfo(faucetUser);
           const configAccountInfo = await connection.getAccountInfo(faucetConfig);
-          
+
           if (userAccountInfo && configAccountInfo) {
             // Parse account data (simplified - in production, use proper deserialization)
             const provider = new AnchorProvider(connection, {} as any, {});
@@ -51,7 +51,18 @@ export default function ClaimCard() {
             const elapsed = timestamp - lastClaim;
             const remaining = Math.max(0, configAccount.cooldownSeconds.toNumber() - elapsed);
             setCooldown(remaining);
+
+            // Debug logging
+            console.log('Faucet Config:', {
+              address: faucetConfig.toString(),
+              mintAuthority: configAccount.mintAuthority.toString(),
+              derivedMintAuthority: PublicKey.findProgramAddressSync(
+                [Buffer.from('faucet'), googlMint.toBuffer()],
+                programId
+              )[0].toString()
+            });
           } else {
+            console.log('Account info not found for user or config');
             setCooldown(0);
           }
         } catch {
@@ -100,6 +111,14 @@ export default function ClaimCard() {
 
       const userGglAta = await getAssociatedTokenAddress(googlMint, publicKey);
 
+      // Debug: Check Mint Owner
+      const mintInfo = await connection.getAccountInfo(googlMint);
+      console.log('Mint Info:', {
+        address: googlMint.toString(),
+        owner: mintInfo?.owner.toString(),
+        programId: programId.toString()
+      });
+
       const instructions = [];
 
       try {
@@ -114,6 +133,13 @@ export default function ClaimCard() {
           )
         );
       }
+
+      // Add compute budget instruction
+      instructions.push(
+        ComputeBudgetProgram.setComputeUnitLimit({
+          units: 300_000 // Increase budget
+        })
+      );
 
       // Create provider with wallet for instruction building
       const provider = new AnchorProvider(
@@ -146,7 +172,23 @@ export default function ClaimCard() {
       const transaction = new Transaction().add(...instructions);
       const latestBlockhash = await connection.getLatestBlockhash();
       transaction.recentBlockhash = latestBlockhash.blockhash;
+      transaction.recentBlockhash = latestBlockhash.blockhash;
       transaction.feePayer = publicKey;
+
+      // Simulate transaction
+      try {
+        console.log('Simulating transaction...');
+        const simulation = await connection.simulateTransaction(transaction);
+        console.log('Simulation logs:', simulation.value.logs);
+        if (simulation.value.err) {
+          console.error('Simulation Error:', simulation.value.err);
+          toast.error(`Simulation failed: ${JSON.stringify(simulation.value.err)}`);
+          setLoading(false);
+          return;
+        }
+      } catch (simErr) {
+        console.error('Simulation execution failed:', simErr);
+      }
 
       const signature = await sendTransaction(transaction, connection);
       await connection.confirmTransaction(signature, 'confirmed');

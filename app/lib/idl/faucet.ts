@@ -54,7 +54,7 @@ export const FaucetIDL = {
         },
         {
           "name": "googlMint",
-          "isMut": false,
+          "isMut": true,
           "isSigner": false
         },
         {
